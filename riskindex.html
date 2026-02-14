@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title> Machine Risk Assessment </title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        width: 400px;
+    }
+    h2 {
+        text-align: center;
+    }
+    input, select, button {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .result {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Machine Risk Assessment</h2>
+
+    <input type="text" id="machine" placeholder="ชื่อเครื่องจักร">
+
+    <label>Severity ความรุนแรง (1-5)</label>
+    <select id="severity">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <label>Likelihood โอกาสเกิด (1-5)</label>
+    <select id="likelihood">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <label>Exposure ความถี่สัมผัส (1-5)</label>
+    <select id="exposure">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <button onclick="calculateRisk()">คำนวณความเสี่ยง</button>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+function calculateRisk() {
+    let machine = document.getElementById("machine").value;
+    let severity = parseInt(document.getElementById("severity").value);
+    let likelihood = parseInt(document.getElementById("likelihood").value);
+    let exposure = parseInt(document.getElementById("exposure").value);
+
+    let score = severity * likelihood * exposure;
+    let level = "";
+    let color = "";
+
+    if (score >= 75) {
+        level = "🔴 High Risk - ต้องแก้ไขทันที";
+        color = "#ff4d4d";
+    } else if (score >= 40) {
+        level = "🟠 Medium Risk - ควรวางแผนแก้ไข";
+        color = "#ffa500";
+    } else {
+        level = "🟢 Low Risk - ยอมรับได้";
+        color = "#28a745";
+    }
+
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = `
+        เครื่องจักร: ${machine || "-"} <br>
+        Risk Score: ${score} <br>
+        ระดับความเสี่ยง: ${level}
+    `;
+    resultDiv.style.background = color;
+    resultDiv.style.color = "white";
+}
+</script>
+
+</body>
+</html>
